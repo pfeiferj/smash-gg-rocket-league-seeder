@@ -41,6 +41,7 @@ async function writeFile(filePath, fileData){
 
 /**
  * Saves a file to a unique name
+ * @private
  */
 async function saveFile(fileName, fileData) {
   const fileType = fileName.split('.').pop();
