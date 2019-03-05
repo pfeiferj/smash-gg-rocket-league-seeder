@@ -23,5 +23,7 @@ _Note: the tournament slug is the part of the tournament URL after tournament/. 
 
 ## Resources
 [Smash.gg Developer API](https://developer.smash.gg/docs/intro)
+
 [rocketleague.tracker.network](https://rocketleague.tracker.network)
+
 [rltracker.pro](https://rltracker.pro)
