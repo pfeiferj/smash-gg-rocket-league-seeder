@@ -19,5 +19,6 @@ module.exports = exports = {
     "no-param-reassign": "error",
     "no-use-before-define": "error",
     "global-require": "warn",
+    "no-console": 0,
   }
 }

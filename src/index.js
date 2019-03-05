@@ -21,7 +21,7 @@ async function main() {
     const eventType = event.entrantSizeMin; 
     for(const phase of event.phases){
       const phaseStandings = await smash.getPhaseStandings(phase, eventType);
-      const seeds = seed.getSeeds(phaseStandings, eventType);
+      const seeds = await seed.getSeeds(phaseStandings, eventType);
       const seedingPromise = smash.seedPhase(phase.id, seeds);
       const seedingFile = await exporter.exportSeeding(seeds);
       console.log("seeding data saved in: " + seedingFile);

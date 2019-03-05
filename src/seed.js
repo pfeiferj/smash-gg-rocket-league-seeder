@@ -2,9 +2,9 @@ const rankData = require('./rankData');
 const STANDARD = 3;
 const DOUBLES = 2;
 const SOLO_DUEL = 1;
-const STANDARD_LABEL = 'Ranked Standard 3v3';
-const DOUBLES_LABEL = 'Ranked Doubles 2v2';
-const SOLO_DUEL_LABEL = 'Ranked Duel 1v1';
+const STANDARD_LABEL = '3v3';
+const DOUBLES_LABEL = '2v2';
+const SOLO_DUEL_LABEL = '1v1';
 
 /**
  * Gets a weighted average of the players ranks
@@ -30,10 +30,11 @@ function getEntrantRank(players, eventType) {
  * Gets the top rank of a player for the current event type
  * @private
  */
-function getTopRank(connectedAccounts, eventType) {
+async function getTopRank(connectedAccounts, eventType) {
   let topRank = 0;
   for (const accountType in connectedAccounts) { //if there are multiple accounts, we only want the best rank
-    const ranks = rankData.getRanks(accountType, connectedAccounts[accountType].value);
+    console.log(connectedAccounts[accountType]);
+    const ranks = await rankData.getRanks(accountType, connectedAccounts[accountType].value);
     const eventTypeRank = //only get the rank for this event type
       eventType   === STANDARD  ? ranks[STANDARD_LABEL]
       : eventType === DOUBLES   ? ranks[DOUBLES_LABEL]
@@ -48,12 +49,12 @@ function getTopRank(connectedAccounts, eventType) {
  * Generates a new seeding for the entrants based on rank data
  * @public
  */
-function getSeeds(standings, eventType) {
+async function getSeeds(standings, eventType) {
   let seedData = [];
   for (let standing of standings) {
     let participants = [];
     for (const participant of standing.entrant.participants) {
-      const topRank = getTopRank(participant.connectedAccounts, eventType);
+      const topRank = await getTopRank(participant.connectedAccounts, eventType);
       const rankedParticipant = {
         id: participant.id,
         name: participant.gamerTag,
