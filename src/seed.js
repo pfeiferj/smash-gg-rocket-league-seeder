@@ -1,3 +1,4 @@
+const cliProgress = require('cli-progress');
 const rankData = require('./rankData');
 const STANDARD = 3;
 const DOUBLES = 2;
@@ -33,7 +34,6 @@ function getEntrantRank(players, eventType) {
 async function getTopRank(connectedAccounts, eventType) {
   let topRank = 0;
   for (const accountType in connectedAccounts) { //if there are multiple accounts, we only want the best rank
-    console.log(connectedAccounts[accountType]);
     const ranks = await rankData.getRanks(accountType, connectedAccounts[accountType].value);
     const eventTypeRank = //only get the rank for this event type
       eventType   === STANDARD  ? ranks[STANDARD_LABEL]
@@ -51,6 +51,9 @@ async function getTopRank(connectedAccounts, eventType) {
  */
 async function getSeeds(standings, eventType) {
   let seedData = [];
+  const bar1 = new cliProgress.Bar({}, cliProgress.Presets.rect);
+  bar1.start(standings.length, 0);
+  let i = 0;
   for (let standing of standings) {
     let participants = [];
     for (const participant of standing.entrant.participants) {
@@ -69,7 +72,10 @@ async function getSeeds(standings, eventType) {
       rank: getEntrantRank(participants, eventType)
     };
     seedData.push(entrant);
+    i++;
+    bar1.update(i);
   }
+  bar1.stop();
   const sortedSeeds = seedData.sort((entrantA, entrantB) => {
     return entrantB.rank - entrantA.rank;
   });

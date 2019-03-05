@@ -56,7 +56,7 @@ async function getRealRanks(accountType, accountSlug) {
   try {
     ranks = await RLClient(PLATFORMS[accountType], accountSlug);
   } catch (e) {
-    console.warn(e);
+    console.warn("\nFailed to get rank data for: " + accountType + '.' + accountSlug, e);
     ranks = {player: {}};
     ranks.player[SOLO_DUEL_LABEL] = 0;
     ranks.player[DOUBLES_LABEL] = 0;
