@@ -55,6 +55,7 @@ async function getRealRanks(accountType, accountSlug) {
   let ranks;
   try {
     ranks = await RLClient(PLATFORMS[accountType], accountSlug);
+    await new Promise(res => setTimeout(()=>res(), 100)); //ensure we don't get rate limited
   } catch (e) {
     console.warn("\nFailed to get rank data for: " + accountType + '.' + accountSlug, e);
     ranks = {player: {}};

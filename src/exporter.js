@@ -75,7 +75,7 @@ async function exportSeeding(seeds){
     rows.push(row);
   }
   const csvContent = await csvStringify(rows);
-  return saveFile('seeding.csv', csvContent);
+  return {file: saveFile('seeding.csv', csvContent), content: csvContent};
 }
 
 module.exports = {

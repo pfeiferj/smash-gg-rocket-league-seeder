@@ -7,6 +7,8 @@ const STANDARD_LABEL = '3v3';
 const DOUBLES_LABEL = '2v2';
 const SOLO_DUEL_LABEL = '1v1';
 
+let currentProgress = 'No progress data.';
+
 /**
  * Gets a weighted average of the players ranks
  * @private
@@ -74,6 +76,7 @@ async function getSeeds(standings, eventType) {
     seedData.push(entrant);
     i++;
     bar1.update(i);
+    currentProgress = bar1.lastDrawnString;
   }
   bar1.stop();
   const sortedSeeds = seedData.sort((entrantA, entrantB) => {
@@ -83,6 +86,11 @@ async function getSeeds(standings, eventType) {
   return sortedSeeds;
 }
 
+function getCurrentProgress(){
+  return currentProgress;
+}
+
 module.exports = {
-  getSeeds
+  getSeeds,
+  getCurrentProgress,
 };
