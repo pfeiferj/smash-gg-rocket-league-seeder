@@ -73,7 +73,7 @@ async function getPhaseStandings(phase){
 
   let phaseStandings = [];
   for(let i = 0; i < phase.numSeeds/SEEDS_PER_PAGE; i++){
-    const variables = {phaseId: phase.id, page:i, perPage:SEEDS_PER_PAGE};
+    const variables = {phaseId: phase.id, page:i+1, perPage:SEEDS_PER_PAGE};
     const seedingData = await graphQLClient.request(query,variables);
     phaseStandings.push(...seedingData.phase.paginatedSeeds.nodes);
   }
