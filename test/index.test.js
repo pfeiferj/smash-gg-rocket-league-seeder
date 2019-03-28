@@ -2,82 +2,58 @@ const {expect} = require('chai');
 const proxyquire = require('proxyquire').noCallThru();
 const sinon = require('sinon');
 
-const logger = {
-  log: ()=>{},
+
+const mocks = {
+  'dotenv':{config: sinon.spy()},
+  './discord':{start: sinon.spy()},
+  './smashSeeder':{run: sinon.stub()},
+  './logger': {log: sinon.spy()},
 };
+mocks['./smashSeeder'].run.returns(new Promise(res=>res()));
 
 describe('Index', function(){
+  beforeEach(function(){
+    mocks.dotenv.config.resetHistory();
+    mocks['./discord'].start.resetHistory();
+    mocks['./smashSeeder'].run.resetHistory();
+    mocks['./logger'].log.resetHistory();
+  });
   it('it should load the .env file', function() {
-    const dotenv = sinon.spy();
-    proxyquire('../src/index', {
-      'dotenv':{config: dotenv},
-      './discord':{start:()=>{}},
-      './smashSeeder':{},
-      './logger': logger,
-    });
+    proxyquire('../src/index', mocks);
 
-    expect(dotenv.calledOnce).to.be.true;
+    expect(mocks.dotenv.config.calledOnce).to.be.true;
   });
 
   describe('when a discord key is in the environment variables', function() {
     describe('and there is no slug argument', function(){
       it('it should not run the seeder', function() {
         process.argv = [];
-        const discord = sinon.spy();
-        const smashSeeder = sinon.stub();
-        smashSeeder.returns(new Promise(res => res()));
-        proxyquire('../src/index', {
-          'dotenv': {config:()=>{}},
-          './discord': {start:discord},
-          './smashSeeder':{run:smashSeeder},
-          './logger': logger,
-        });
+        proxyquire('../src/index', mocks);
 
-        expect(smashSeeder.calledOnce).to.be.false;
+        expect(mocks['./smashSeeder'].run.calledOnce).to.be.false;
       });
 
       it('it should start the discord server', function() {
-        const discord = sinon.spy();
         process.env.DISCORD_KEY = 'test';
         process.argv = [];
-        proxyquire('../src/index', {
-          'dotenv': {config:()=>{}},
-          './discord': {start:discord},
-          './smashSeeder':{},
-          './logger': logger,
-        });
-        expect(discord.calledOnce).to.be.true;
+        proxyquire('../src/index', mocks);
+        expect(mocks['./discord'].start.calledOnce).to.be.true;
       });
     });
 
     describe('and there is a slug argument', function() {
       it('it should not start the discord server', function() {
         process.argv = ['','slug=test'];
-        const discord = sinon.spy();
-        const smashSeeder = sinon.stub();
-        smashSeeder.returns(new Promise(res => res()));
-        proxyquire('../src/index', {
-          'dotenv': {config:()=>{}},
-          './discord': {start:discord},
-          './smashSeeder':{run:smashSeeder},
-          './logger': logger,
-        });
+        proxyquire('../src/index', mocks);
 
-        expect(discord.calledOnce).to.be.false;
+        expect(mocks['./discord'].start.calledOnce).to.be.false;
       });
 
       it('it should run the seeder', function() {
         process.argv = ['','slug=test'];
-        const smashSeeder = sinon.stub();
-        smashSeeder.returns(new Promise(res => res()));
-        proxyquire('../src/index', {
-          'dotenv': {config:()=>{}},
-          './discord': {start:()=>{}},
-          './smashSeeder':{run:smashSeeder},
-          './logger': logger,
-        });
+        proxyquire('../src/index', mocks);
 
-        expect(smashSeeder.calledOnce).to.be.true;
+        expect(mocks['./smashSeeder'].run.calledOnce).to.be.true;
       });
     });
   });
