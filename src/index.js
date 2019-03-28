@@ -1,6 +1,7 @@
 require('dotenv').config();
 const smashSeeder = require('./smashSeeder');
 const discord = require('./discord');
+const logger = require('./logger');
 
 const namedArgs = {};
 for(const arg of process.argv){
@@ -17,5 +18,5 @@ if(!slug && process.env.DISCORD_KEY){
 } else if(slug) {
   smashSeeder.run(slug).catch(e=>{console.error(e);});
 } else {
-  console.log("Please provide a slug by running 'npm start -- slug=tournament_slug_name' or provide a discord api key to your .env file");
+  logger.log("Please provide a slug by running 'npm start -- slug=tournament_slug_name' or provide a discord api key to your .env file");
 }
