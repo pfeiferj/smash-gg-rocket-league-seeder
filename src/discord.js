@@ -3,6 +3,7 @@ const smashSeeder = require('./smashSeeder');
 
 /**
  * Checks if the user is eligible for the command
+ * @private
  */
 function isEligibleUser(msg){
   if(process.env.ADMIN_ROLE === undefined){

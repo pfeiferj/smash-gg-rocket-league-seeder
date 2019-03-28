@@ -28,7 +28,7 @@ async function run(slug) {
       } catch(e) {
         console.warn('Could not update smash.gg seeding for ' + event.name + " - " + phase.name + '.', e.message.split(':')[0]);
       }
-      seedings.push({name: `${event.name}: ${phase.name}`, success, content: seedingFileData.content});
+      seedings.push({name: `${event.name}: ${phase.name}`, success, content: seedingFileData.content, file: seedingFileData.name});
     }
   }
   return seedings;
