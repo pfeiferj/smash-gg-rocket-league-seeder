@@ -21,7 +21,7 @@ async function run(slug) {
       currentProgress = `${event.name}: ${phase.name}`;
       const seeds = await seed.getSeeds(phaseStandings, eventType);
       const seedingPromise = smash.seedPhase(phase.id, seeds);
-      const fileName = `${event.name.replace(/ /g, '')}_${phase.name.replace(/ /g, '-')}`;
+      const fileName = `${event.name.replace(/ /g, '-')}_${phase.name.replace(/ /g, '-')}`;
       const seedingFileData = await exporter.exportSeeding(seeds, fileName);
       console.log("seeding data saved in: " + seedingFileData.file);
       let success = false;
