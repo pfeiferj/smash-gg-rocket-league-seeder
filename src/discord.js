@@ -32,13 +32,14 @@ async function seed(msg){
   try { 
     const seedings = await smashSeeder.run(msgParts[1]);
     let replyText = '';
+    let files = [];
     for(const seedData of seedings){
       replyText += "\n"
         + `${seedData.name}\n` 
-        + `${seedData.success ? 'Succeded' : 'Failed'} writing seed data to smash.gg.\n`
-        + `${seedData.content}\n`;
+        + `${seedData.success ? 'Succeded' : 'Failed'} writing seed data to smash.gg.\n`;
+      files.push(seedData.file);
     }
-    msg.reply(replyText);
+    msg.reply(replyText, {files});
   } catch(e) {
     msg.reply(`Failed to seed ${msgParts[1]}. Please ensure you have a valid tournament slug and that the bracket has not started.`);
     console.log(e);
