@@ -16,7 +16,9 @@ const slug = namedArgs.slug;
 if(!slug && process.env.DISCORD_KEY){
   discord.start();
 } else if(slug) {
-  smashSeeder.run(slug).catch(e=>{console.error(e);});
+  smashSeeder.run(slug).catch(e=>{
+    logger.error(e);
+  });
 } else {
   logger.log("Please provide a slug by running 'npm start -- slug=tournament_slug_name' or provide a discord api key to your .env file");
 }

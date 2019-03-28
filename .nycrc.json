@@ -5,6 +5,7 @@
   ],
   "reporter": [
     "lcov",
-    "text"
+    "text",
+    "json"
   ]
 }
