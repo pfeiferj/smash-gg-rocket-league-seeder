@@ -64,7 +64,7 @@ async function saveFile(fileName, fileData) {
  * Generates a csv containing the seeding results
  * @public
  */
-async function exportSeeding(seeds){
+async function exportSeeding(seeds,name){
   let rows = [["seed", "entrant", "rank", "participant ranks"]];
   for(let i = 0; i < seeds.length; i++){
     let participantRanks = "";
@@ -75,7 +75,7 @@ async function exportSeeding(seeds){
     rows.push(row);
   }
   const csvContent = await csvStringify(rows);
-  const file = await saveFile('seeding.csv', csvContent);
+  const file = await saveFile(`${name}.csv`, csvContent);
   return {file, content: csvContent};
 }
 
