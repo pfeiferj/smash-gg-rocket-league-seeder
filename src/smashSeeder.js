@@ -13,6 +13,9 @@ async function run(slug) {
   let seedings = [];
   for (const event of tournamentInfo.events) {
     const eventType = event.entrantSizeMin; 
+    if(!event.phases || !event.phases.length){
+      continue;
+    }
     for(const phase of event.phases){
       const phaseStandings = await smash.getPhaseStandings(phase, eventType);
       currentProgress = `${event.name}: ${phase.name}`;

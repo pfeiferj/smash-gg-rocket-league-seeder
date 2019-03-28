@@ -55,7 +55,7 @@ function progress(msg) {
   if(!isEligibleUser(msg)) {
     return;
   }
-  msg.reply(smashSeeder.getCurrentProgress());
+  msg.reply('```\n' + smashSeeder.getCurrentProgress() + '\n```');
 }
 
 /**
