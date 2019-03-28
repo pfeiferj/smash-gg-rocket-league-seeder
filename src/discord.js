@@ -50,7 +50,7 @@ async function seed(msg){
  * @private
  */
 function progress(msg) {
-  if(process.env.ADMIN_ROLE !== undefined && !msg.member.roles.array().find(role => role.name === process.env.ADMIN_ROLE)){
+  if(!isEligibleUser(msg)) {
     return;
   }
   msg.reply(smashSeeder.getCurrentProgress());
