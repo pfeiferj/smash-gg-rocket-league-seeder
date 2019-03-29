@@ -16,6 +16,7 @@ describe('Index', function(){
     mocks['./discord'].start.resetHistory();
     mocks['./smashSeeder'].run.resetHistory();
     mocks['./logger'].log.resetHistory();
+    mocks['./logger'].error.resetHistory();
 
     mocks['./smashSeeder'].run.returns(new Promise(res=>res()));
   });
@@ -109,11 +110,13 @@ describe('Index', function(){
   });
 
   describe('when smashSeeder.run throws an error', function() {
-    it('it should log an error', function() {
+    it('it should log an error', async function() {
       const reject = 'test error';
-      mocks['./smashSeeder'].run.returns(new Promise((res, rej) => rej(reject)));
+      const prom = new Promise((res, rej) => rej(reject));
+      mocks['./smashSeeder'].run.returns(prom);
       process.argv = ['', 'slug=test'];
       proxyquire('../src/index', mocks);
+      await new Promise(res=>setTimeout(res,0)); //timeout so that the catch function gets called
       
       expect(mocks['./logger'].error.calledWith(reject)).to.be.true;
     });
