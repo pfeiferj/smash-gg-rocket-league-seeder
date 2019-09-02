@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const smashSeeder = require('./smashSeeder');
+const logger = require('./logger');
 
 /**
  * Checks if the user is eligible for the command
@@ -73,10 +74,14 @@ function start(){
 
   client.on('message', async msg => {
     if (msg.content.startsWith('!seed')) {
-      seed(msg);
+      try{
+        seed(msg);
+      } catch(e){ logger.error(e); }
     }
     if (msg.content.startsWith('!progress')){
-      progress(msg);
+      try{
+        progress(msg);
+      } catch(e){ logger.error(e); }
     }
   });
 }

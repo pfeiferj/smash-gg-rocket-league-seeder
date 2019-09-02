@@ -45,7 +45,7 @@ async function getTournamentInfo(slug){
 async function getPhaseStandings(phase){
   const SEEDS_PER_PAGE = 50;
   const query = /*GraphQL*/ `
-    query GetPhaseSeeds($phaseId:Int!,$page:Int!,$perPage:Int!) {
+    query GetPhaseSeeds($phaseId:ID!,$page:Int!,$perPage:Int!) {
       phase(id:$phaseId){
         id
         paginatedSeeds(query:{
@@ -86,7 +86,7 @@ async function getPhaseStandings(phase){
  */
 async function seedPhase(phaseId, seeds){
   const mutation = /*GraphQL*/ `
-    mutation UpdatePhaseSeeding ($phaseId: Int!, $seedMapping: [UpdatePhaseSeedInfo]!) {
+    mutation UpdatePhaseSeeding ($phaseId: ID!, $seedMapping: [UpdatePhaseSeedInfo]!) {
       updatePhaseSeeding (phaseId: $phaseId, seedMapping: $seedMapping) {
         id
       }
